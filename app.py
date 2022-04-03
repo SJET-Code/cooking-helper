@@ -41,7 +41,7 @@ def recipe(id):
     sql = "SELECT name FROM recipes WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     recipe = result.fetchone()[0]
-    sql = "SELECT instruction FROM instrutions WHERE recipe_id=:id"
+    sql = "SELECT instruction FROM instructions WHERE recipe_id=:id"
     result = db.session.execute(sql, {"id":id})
     instruction = result.fetchone()[0]  
     sql = "SELECT id, ingredient, amount FROM ingredients WHERE recipe_id=:id"
