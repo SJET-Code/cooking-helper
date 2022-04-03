@@ -9,10 +9,10 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    sql = "SELECT id, topic, created_at FROM polls ORDER BY id DESC"
+    sql = "SELECT id, name FROM recipes ORDER BY id DESC"
     result = db.session.execute(sql)
-    polls = result.fetchall()
-    return render_template("index.html", polls=polls)
+    recipes = result.fetchall()
+    return render_template("index.html", recipes=recipes)
 
 @app.route("/new")
 def new():
@@ -20,45 +20,31 @@ def new():
 
 @app.route("/create", methods=["POST"])
 def create():
-    topic = request.form["topic"]
-    sql = "INSERT INTO polls (topic, created_at) VALUES (:topic, NOW()) RETURNING id"
-    result = db.session.execute(sql, {"topic":topic})
-    poll_id = result.fetchone()[0]
-    choices = request.form.getlist("choice")
-    for choice in choices:
-        if choice != "":
-            sql = "INSERT INTO choices (poll_id, choice) VALUES (:poll_id, :choice)"
-            db.session.execute(sql, {"poll_id":poll_id, "choice":choice})
+    recipe = request.form["Recipe name"]
+    sql = "INSERT INTO recipes (name) VALUES (:recipe) RETURNING id"
+    result = db.session.execute(sql, {"recipe":recipe})
+    recipe_id = result.fetchone()[0]
+    instruction = request.form["Instructions"]
+    sql = "INSERT INTO instructions (recipe_id, instruction) VALUES (:recipe_id, :instruction)"
+    db.session.execute(sql, {"recipe_id":recipe_id, "instruction":instruction})
+    ingredients = request.form.getlist("add ingredient")
+    amounts = request.form.getlist("amount")
+    for i in range(len(ingredients)):
+        if ingredients[i] != "":
+            sql = "INSERT INTO ingredients (recipe_id, ingredient, amount) VALUES (:recipe_id, :ingredients[i], :amounts[i])"
+            db.session.execute(sql, {"recipe_id":recipe_id, "ingredients[i]":ingredients[i], "amounts[i]":amounts[i]})
     db.session.commit()
     return redirect("/")
 
-@app.route("/poll/<int:id>")
-def poll(id):
-    sql = "SELECT topic FROM polls WHERE id=:id"
+@app.route("/recipe/<int:id>")
+def recipe(id):
+    sql = "SELECT name FROM recipes WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
-    topic = result.fetchone()[0]
-    sql = "SELECT id, choice FROM choices WHERE poll_id=:id"
+    recipe = result.fetchone()[0]
+    sql = "SELECT instruction FROM instrutions WHERE recipe_id=:id"
     result = db.session.execute(sql, {"id":id})
-    choices = result.fetchall()
-    return render_template("poll.html", id=id, topic=topic, choices=choices)
-
-@app.route("/answer", methods=["POST"])
-def answer():
-    poll_id = request.form["id"]
-    if "answer" in request.form:
-        choice_id = request.form["answer"]
-        sql = "INSERT INTO answers (choice_id, sent_at) VALUES (:choice_id, NOW())"
-        db.session.execute(sql, {"choice_id":choice_id})
-        db.session.commit()
-    return redirect("/result/" + str(poll_id))
-
-@app.route("/result/<int:id>")
-def result(id):
-    sql = "SELECT topic FROM polls WHERE id=:id"
+    instruction = result.fetchone()[0]  
+    sql = "SELECT id, ingredient, amount FROM ingredients WHERE recipe_id=:id"
     result = db.session.execute(sql, {"id":id})
-    topic = result.fetchone()[0]
-    sql = "SELECT c.choice, COUNT(a.id) FROM choices c LEFT JOIN answers a " \
-          "ON c.id=a.choice_id WHERE c.poll_id=:poll_id GROUP BY c.id"
-    result = db.session.execute(sql, {"poll_id":id})
-    choices = result.fetchall()
-    return render_template("result.html", topic=topic, choices=choices)
+    ingredients = result.fetchall()
+    return render_template("recipe.html", id=id, recipe=recipe, instruction=instruction, ingredients=ingredients)
