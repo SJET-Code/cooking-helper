@@ -31,8 +31,8 @@ def create():
     amounts = request.form.getlist("amount")
     for i in range(len(ingredients)):
         if ingredients[i] != "":
-            sql = "INSERT INTO ingredients (recipe_id, ingredient, amount) VALUES (:recipe_id, :ingredients[i], :amounts[i])"
-            db.session.execute(sql, {"recipe_id":recipe_id, "ingredients[i]":ingredients[i], "amounts[i]":amounts[i]})
+            sql = "INSERT INTO ingredients (recipe_id, ingredient, amount) VALUES (:recipe_id, :ingredient, :amount)"
+            db.session.execute(sql, {"recipe_id":recipe_id, "ingredient":ingredients[i], "amount":amounts[i]})
     db.session.commit()
     return redirect("/")
 
