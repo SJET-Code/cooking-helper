@@ -1,0 +1,11 @@
+{{ recipe }}
+<hr>
+{{ instructions }}
+<hr>
+<ul>
+{% for ing in ingredients %}
+<li> {{ ing.ingredient}} {{ ing.amount }}
+{% endfor %}
+</ul>
+<hr>
+<a href="/">back</a>

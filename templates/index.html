@@ -1,0 +1,7 @@
+<a href="/new">New recipe</a>
+<hr>
+{% for recipe in recipes %}
+Recipe: {{ recipe.name }} <br>
+<a href="/recipe/{{ recipe.id }}">See recipe</a>
+<hr>
+{% endfor %}
