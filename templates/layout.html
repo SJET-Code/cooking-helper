@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/main.css">
+    <script src="/static/scripts.js"></script>
+    <title>{% block title %}{% endblock %} </title>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Cooking-Helper</h1>
+    </div>
+    
+    <nav class="navgrid">
+      <div class="griditem" id="link1" onclick="location.href='/';">
+        <button>Home</button>
+      </div>
+      <div class="griditem" id="link2" onclick="location.href='/new';">
+        <button>Create a Recipe</button>
+      </div>
+      <div class="griditem" id="link3" onclick="location.href='/new_cooking_plan';">
+        <button>Create a Cooking Plan</button>
+      </div>
+      <div class="griditem" id="link4" onclick="location.href='/my_cooking_plans';">
+        <button>My Cooking Plans</button>
+      </div>
+      {% if user %}
+      <div class="griditem" id="link5" onclick="location.href='/logout';">
+        <button>Logout</button>
+        {% else %}
+        <div class="griditem" id="link5" onclick="location.href='/login';">
+          <button>Login</button>
+        {% endif %}
+      </div>
+     </nav>
+    <main><div class="center"> {{ message }} </div>
+      <div class="content">
+        {% block content %}
+        
+        {% endblock %}
+      </div>
+        <aside>
+        {% block related %}{% endblock %}
+        </aside>
+    </main>
+    <footer>
+      <p>Made by Santeri Tolonen</p>
+    </footer>
+  </body>
+</html>

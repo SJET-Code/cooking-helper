@@ -1,7 +1,24 @@
-<a href="/new">New recipe</a>
-<hr>
-{% for recipe in recipes %}
-Recipe: {{ recipe.name }} <br>
-<a href="/recipe/{{ recipe.id }}">See recipe</a>
-<hr>
-{% endfor %}
+{% extends "layout.html" %}
+{% block title %}Cooking Helper{% endblock %}
+{% block content %}
+<div class="gridhome">
+    <div class="griditem" id="newestheader">
+    <h3 class="subheader">Latest Recipes: </h3>
+    </div>
+    <div class="griditem" id="likedheader">
+        <h3 class="subheader">Most Liked Recipes: </h3>
+    </div>
+    <div class="griditem" id="newestrecipes">
+        {% for recipe in recipes %}
+        <input class="button" type="button" onclick="location.href='/recipe/{{ recipe.id }}';" value="{{ recipe.name }}"/> 
+        by <em>{{ recipe.username }}</em><br>
+        {% endfor %}
+    </div>
+    <div class="griditem" id="likedrecipes">
+        {% for recipe in liked_recipes %}
+        <input class="button" type="button" onclick="location.href='/recipe/{{ recipe.id }}';" value="{{ recipe.name }}"/> 
+        by <em>{{ recipe.username }}</em> Likes: {{ recipe.likecount }}<br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

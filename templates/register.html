@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+
+<form class="gridlogin" action="/register" method="post">
+    <div class="griditem" id="login">
+        <label class="loginlabel" for="username">Username:</label>
+        <input class="right" type="text" name="username" required minlength="2" maxlength="15"><br>
+        <label class="loginlabel" for="password">Password:</label>
+        <input class="right" type="password" name="password1" required minlength="6" maxlength="30"><br>
+        <label class="loginlabel" for="password2">Password again:</label>
+        <input class="right" type="password" name="password2" required minlength="6" maxlength="30">
+    </div>
+    <div class="griditem" id="loginbuttons">
+        <input class="button" type="submit" value="Create an account">
+    </div>
+</form>
+
+{% endblock %}

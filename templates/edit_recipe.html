@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}edit {{ recipe }}{% endblock %}
+{% block content %}
+
+    <form class="gridcontainer" id="new" action="/recipe/{{ id }}/edit" method="POST">
+        <div class="griditem" id="recipename">
+            <h4>{{ recipe }} by {{ maker }}</h4>
+        </div>
+        <div class="griditem" id="instructions">
+        <label for="instructions">Step-by-Step Instructions:</label>
+            <div id="instructionsteps">
+                {% for step in instructions %}
+                <div><textarea name="instructions" id="instruction" form="new" required maxlength="100" rows="3" cols="34">{{ step.instruction }}</textarea></div>
+                {% endfor %}
+            </div>
+            <input class="button" type="button" id="newStep" onclick="add_step();" value="Add a new step">
+        </div>
+        <div class="griditem" id="ingredients">
+        <label for="ingredient">Ingredients:</label>
+            <div id="container">
+                {% for ing in ingredients %}
+                <span><input type="text" name="ingredient" id="ingredient" placeholder="ingredient name" value="{{ ing.ingredient}}" maxlength="35"> </span>
+                <span><input type="text" name="amount" id="amount" placeholder="ingredient amount" value="{{ ing.amount}}" maxlength="20"><br></span>
+                {% endfor %}
+            </div>
+            <input class="button" type="button" id="newIngredient" onclick="add_ingredient();" value="Add a new ingredient">
+        </div>
+        <div class="griditem" id="submit">
+            <b>Leave a blank field to delete a step/ingredient</b>
+            <input class="button" type="submit" value="Save changes">
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
+            
+{% endblock %}

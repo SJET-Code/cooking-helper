@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Create a Cooking Plan{% endblock %}
+{% block content %}
+
+{% if empty %}
+Like recipes you would like to add to a Cooking Plan!
+{% else %}
+<form class="gridnewcp" name="cooking plan" action="/new_cooking_plan" method="POST">
+    <div class="griditem" id="newcprecipes">
+        <fieldset>
+            <div class="center">
+                <legend>Choose recipes for a Cooking Plan</legend>
+                <label class="namelabel" for="cp_name">Cooking Plan name:</label><br>
+                <input type="text" id="cp_name" name="name" required minlength="3" maxlength="35"><br>
+            </div>
+            {% for recipe in recipes %}
+            <input class="checkleft" type="checkbox" id="{{ recipe.id }}" name="id" value="{{ recipe.id }}"> 
+            <label class="checkleft" for="{{ recipe.id }}">
+            <input class="button" type="button" onclick="location.href='/recipe/{{ recipe.id }}';" value="{{ recipe.name }}"/>
+            </label><br>
+            {% endfor %}
+            <div class="center">
+                <input class="button" type="submit" value="Create a Cooking Plan">
+            </div>
+        </fieldset>
+    </div>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% endif %}
+
+{% endblock %}

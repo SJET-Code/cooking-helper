@@ -1,0 +1,310 @@
+body {
+  margin: auto;
+  max-width: 65em;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  background-color: rgb(132, 109, 97);
+  color: rgb(225, 247, 217);
+}
+.content {
+  padding: 0.5em;
+  margin-bottom: 5em;
+  background: rgb(194, 239, 179);
+  border-radius: 2em;
+  color: rgb(63, 46, 41);
+}
+.header{
+  background: rgb(194, 239, 179);
+  padding: .5em;
+  font-weight: bold;
+  font-size: 2em;
+  border-radius: .5em;
+  margin-top: 2em;
+  color: rgb(63, 46, 41);
+}
+.subheader{
+  padding-top: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+table {
+    width: 80%;
+}
+
+.checkleft {
+  text-align: left;
+  margin-left: 1em;
+}
+h1 {
+  text-align: center;
+}
+
+.home {
+  text-align:left;
+  padding: .5em;
+  margin-left: 25em;
+}
+
+.content li{
+  align-items: center;
+  padding: .5em;
+}
+
+.createRecipe form{
+  margin: 3em;
+  padding: 3em;
+}
+
+.gridhome {
+  display: grid;
+  grid-template-columns: [first] 32em [line2] 32em [end];
+  grid-template-rows: [row1] 5em [row2] auto [last-line];
+}
+
+.gridlogin {
+  display: grid;
+  grid-template-columns: [first] 18em [middle] auto [third] 18em [end];
+  grid-template-rows: [row1] auto [row2] auto [last-line];
+}
+
+.gridnewcp {
+  display: grid;
+  grid-template-columns: [first] 18em [middle] auto [third] 18em [end];
+  grid-template-rows: [row1] auto [last-line];
+}
+
+.gridcontainer {
+  display: grid;
+  grid-template-columns: [first] 26em [line2] 12em [line3] 26em [end];
+  grid-template-rows: [row1-start] 5em [row1-end] auto [third-line] auto [last-line];
+}
+
+.navgrid {
+  display: grid;
+  grid-template-columns: [row1-start] auto [row1-end] auto [third-line] auto [fourth] auto [fifth] auto [end];
+  grid-template-rows: 2em;
+  padding: .5em;
+  margin-top: .5em;
+}
+
+.cookingplangrid{
+  display: grid;
+  grid-template-columns: [first] 26em [line2] 12em [line3] 26em [end];
+  grid-template-rows: [row1-start] 5em [row1-end] auto [third-line] 8em [last-line];
+}
+
+#link1.griditem {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: center;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+}
+#link2.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+}
+#link3.griditem {
+  grid-column: 3;
+  grid-row: 1;
+  text-align: center;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+}
+#link4.griditem {
+  grid-column: 4;
+  grid-row: 1;
+  text-align: center;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+}
+#link5.griditem {
+  grid-column: 5;
+  grid-row: 1;
+  text-align: center;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+}
+#link1.griditem:hover {
+  background-color: rgb(130, 173, 135);
+}
+#link2.griditem:hover {
+  background-color: rgb(130, 173, 135);
+}
+#link3.griditem:hover {
+  background-color: rgb(130, 173, 135);
+}
+#link4.griditem:hover {
+  background-color: rgb(130, 173, 135);
+}
+#link5.griditem:hover {
+  background-color: rgb(130, 173, 135);
+}
+#login.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: left;
+  background: rgb(130, 173, 135);
+  border-radius: 1em;
+  padding: 2em;
+  margin: 1em;
+}
+#loginbuttons.griditem {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: center;
+  padding: 2em;
+}
+#newcprecipes.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: middle;
+  background: rgb(130, 173, 135);
+  border-radius: 1em;
+}
+#includes.griditem {
+  grid-column: 1;
+  grid-row: 2;
+  text-align: left;
+  background: rgb(130, 173, 135);
+  border-radius: 1em;
+}
+#shoppinglist.griditem {
+  grid-column: 3;
+  grid-row: 2;
+  text-align: left;
+  background: rgb(130, 173, 135);
+  border-radius: 1em;
+}
+#options.griditem {
+  grid-column: 2;
+  grid-row: 3;
+  text-align: center;
+}
+#recipename.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+}
+
+#instructions.griditem {
+  grid-column: 1;
+  grid-row: 2;
+  text-align: center;
+}
+#newestheader.griditem {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: center;
+}
+#likedheader.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+}
+#newestrecipes.griditem {
+  grid-column: 1;
+  grid-row: 2;
+  text-align: left;
+  margin-left: 5em;
+}
+#likedrecipes.griditem {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: left;
+  margin-left: 5em;
+}
+input#instruction {
+  width: 20em;
+  height: 6em;
+}
+
+#ingredients.griditem {
+  grid-column: 3;
+  grid-row: 2;
+  text-align: center;
+}
+#submit.griditem {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: center;
+}
+#submitrecipe.griditem {
+  grid-column: 2;
+  grid-row: 3;
+  text-align: center;
+}
+input[type="checkbox"] {
+  align-items: center;
+  width: 30px;
+}
+
+fieldset{
+  border: none;
+}
+
+.button {
+  padding: 1em;
+  border-radius: 1em;
+  background: rgb(66, 106, 90);
+  color: rgb(225, 247, 217);
+  margin: 0.5em;
+  border: none;
+}
+.button:hover {
+  background-color: rgb(130, 173, 135);
+}
+.button a {
+  text-decoration: none;
+  color: rgb(130, 173, 135);
+}
+
+div.center {
+  text-align: center;
+  padding: .5em;
+}
+
+a{
+  text-decoration: none;
+  background: rgb(66, 106, 90);
+  border-radius: 1em;
+  color: rgb(225, 247, 217);
+  padding: .3em;
+  margin: 0.3em;
+}
+a:hover{
+  background: rgb(130, 173, 135);
+}
+legend {
+  width: 250px;
+  padding: 6px;
+  margin-left: calc(50% - 105px - 24px);
+}
+
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+input.right{
+  text-align: left;
+  float: inline-end;
+}
+input#cp_name {
+  margin-bottom: 2em;
+}
+
+label.loginlabel{
+  display: inline-block;
+  padding: .2em;
+}
+
+nav button {
+  border: none;
+  background: none;
+  padding: .5em;
+  color: rgb(225, 247, 217);
+}

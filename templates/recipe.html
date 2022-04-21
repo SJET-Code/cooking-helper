@@ -1,11 +1,42 @@
-{{ recipe }}
-<hr>
-{{ instruction }}
-<hr>
-<ul>
-{% for ing in ingredients %}
-<li> {{ ing.ingredient}} {{ ing.amount }}
-{% endfor %}
-</ul>
-<hr>
-<a href="/">back</a>
+{% extends "layout.html" %}
+{% block title %}{{ recipe }}{% endblock %}
+{% block content %}
+
+<div class="gridcontainer">
+    <div class="griditem" id="recipename">
+        <h3>{{ recipe }} by {{ maker }}</h3>
+    </div>
+    <div class="griditem" id="includes">
+        <div class="center">Step-by-step instructions:</div>
+        <ol>
+            {% for step in instructions %}
+            <li> {{ step.instruction }}
+            {% endfor %}
+        </ol>
+    </div>
+    <div class="griditem" id="shoppinglist">
+        <div class="center">Ingredients:</div>
+        <ul>
+        {% for ing in ingredients %}
+        <li> <em>{{ ing.amount }}</em> {{ ing.ingredient}}
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="griditem" id="submit">
+        {% if like %} 
+        <input class="button" type="button" onclick="location.href='/recipe/{{ id }}/unlike';" value="Unlike recipe"/>
+        {% else %}
+        <input class="button" type="button" onclick="location.href='/recipe/{{ id }}/like';" value="Like recipe"/>
+        {% endif %}
+        <br><b>{{ likes }} likes </b>
+        {% if is_owner %}
+        <div class="buttonHolder">
+        <input class="button" type="button" onclick="location.href='/recipe/{{ id }}/edit';" value="Edit recipe"/>
+        <input class="button" type="button" onclick="location.href='/recipe/{{ id }}/delete';" value="Delete recipe"/>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
