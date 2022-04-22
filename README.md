@@ -22,4 +22,4 @@ Planned features:
 Issues to be fixed before release:
 
 - Improve website accessibility and formatting in different devices
-- Clean up and code and html/css
+- Clean up code and html/css
