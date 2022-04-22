@@ -1,25 +1,25 @@
-# cooking-helper
+# [Cooking-Helper](https://cooking--helper.herokuapp.com/)
 A tool to store, rate, and easily list out recipes and ingredients used in cooking!
 
-This application allows users to create recepies, browse and like other users recepies and create a list of recepies that includes a combined list of all the ingredients used in those recepies. This is a very useful tool for people who like to plan out their cooking a week ahead, while still having a nice amount of variety with their food.
+This application allows users to create recipes, browse and like other users recipes and create a list of recipes that includes a combined list of all the ingredients used in those recipes. This is a very useful tool for people who like to plan out their cooking a week ahead, while still having a nice amount of variety with their food.
 
 Current features:
 
-- Ability to create a recipe with up to 9 different ingredients and instructions
-- Ability to see all created recipes in the frontpage, listed from newest to oldest
-- Ability to open a recipe from the frontpage and see the instructions and a list of ingredients for that recipe
+- [x] Ability to register an account and login
+- [x] Ability to create a recipe with different ingredients and step-by-step instructions, once logged in
+- [x] Ability to see 20 latest and 20 most liked recipes in the frontpage
+- [x] Ability to open a recipe and see the step-by-step instructions and a list of ingredients for that recipe
+- [x] Ability to edit and delete your own recipes
+- [x] Ability to rate other peoples recipes
+- [x] Ablity to create a Cooking Plan (a list of recipes) from your liked recipes, and form a shopping list (a list of all the ingredients in Cooking Plan recipes)
+- [x] Ability to edit and delete your own Cooking Plans
+- [x] Ability to see all your Cooking Plans from "My Cooking Plans" page
 
-Features to be added:
+Planned features:
 
-- Ability to create an account
-- Ability to edit your own recipes
-- Ability to rate other peoples recipes
-- Ablity to create a list of recipes and get back a list of all the ingredients in those recipes (a shopping list)
-- Ability to add more than 9 ingredients to a recipe
+- [ ] Ability to browse your own recipes and all recipes with a key word, or ingredient that is used in the recipe, also being able to filter out certain ingredients
 
-Known problems:
+Issues to be fixed before release:
 
-- No limit on the names of recipes, instructions or ingredients
-- formatting a bit clumsy at times, especially on a recipe page with longer instructions
-
-Testing can be done [here](https://cooking--helper.herokuapp.com/)
+- Improve website accessibility and formatting in different devices
+- Clean up and code and html/css
