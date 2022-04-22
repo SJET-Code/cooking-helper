@@ -12,6 +12,7 @@ Current features:
 - [x] Ability to edit and delete your own recipes
 - [x] Ability to rate other peoples recipes
 - [x] Ablity to create a Cooking Plan (a list of recipes) from your liked recipes, and form a shopping list (a list of all the ingredients in Cooking Plan recipes)
+- [x] Ability to hide/unhide ingredients from a shopping list (to filter out what you already have in the pantry)
 - [x] Ability to edit and delete your own Cooking Plans
 - [x] Ability to see all your Cooking Plans from "My Cooking Plans" page
 
