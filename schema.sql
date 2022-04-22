@@ -3,7 +3,9 @@ DROP TABLE recipes CASCADE;
 DROP TABLE instructions CASCADE;
 DROP TABLE ingredients CASCADE;
 DROP TABLE likes CASCADE;
-DROP TABLE recipe_list CASCADE;
+DROP TABLE cooking_plans CASCADE;
+DROP TABLE cp_recipes CASCADE;
+DROP TABLE cp_hidden CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
