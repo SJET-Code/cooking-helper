@@ -114,7 +114,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         result = users.login(username, password)
-        if result[0][0] == 'S':
+        if result == []:
             return redirect("/")
         else:
             return render_template("login.html", message=result, user=users.is_user(),
