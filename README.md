@@ -3,7 +3,7 @@ A tool to store, rate, and easily list out recipes and ingredients used in cooki
 
 This application allows users to create recipes, browse and like other users recipes and create a list of recipes that includes a combined list of all the ingredients used in those recipes. This is a very useful tool for people who like to plan out their cooking a week ahead, while still having a nice amount of variety with their food.
 
-Current features:
+### Current features:
 
 - [x] Ability to register an account and login
 - [x] Ability to create a recipe with different ingredients and step-by-step instructions, once logged in
@@ -16,11 +16,14 @@ Current features:
 - [x] Ability to edit and delete your own Cooking Plans
 - [x] Ability to see all your Cooking Plans from "My Cooking Plans" page
 
-Planned features:
+### Planned features:
 
 - [ ] Ability to browse your own recipes and all recipes with a key word, or ingredient that is used in the recipe, also being able to filter out certain ingredients
 
-Issues to be fixed before release:
+### Issues to be fixed before release:
 
 - Improve website accessibility and formatting in different devices
 - Clean up code and html/css
+
+### Testing
+Testing can be done in [Heroku](https://cooking--helper.herokuapp.com/), you need to register and log in to create and like recipes and to make and see your cooking plans!
