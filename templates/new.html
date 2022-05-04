@@ -17,8 +17,9 @@
     <div class="griditem" id="ingredients">
     <label for="ingredient">Ingredients:</label>
         <div id="container">
-            <span><input type="text" name="ingredient" id="ingredient" placeholder="ingredient name" required maxlength="35"></span>
-            <span><input type="text" name="amount" id="amount" placeholder="ingredient amount" required maxlength="20"><br></span>
+            <span><input type="text" name="ingredient" id="ingredient" placeholder="ingredient name" required maxlength="35">
+            <input type="number" name="amount" id="amount" placeholder="amount" required min="1" max="9999999">
+            <input type="text" name="unit" id="unit" placeholder="unit" maxlength="15"><br></span>
         </div>
         <input class="button" type="button" id="newIngredient" onclick="add_ingredient();" value="Add a new ingredient"><br>
     </div>

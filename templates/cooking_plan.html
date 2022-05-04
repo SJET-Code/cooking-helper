@@ -19,7 +19,7 @@
         <ul>
             {% for i in cp_ingredients %}
             <li><input class="check" type="checkbox" id="{{ i.id }}" name="ingredient_id" value="{{ i.id }}">
-            <label for="{{ i.id }}"> <em>{{ i.amount }}</em> {{ i.ingredient }}</label></li>
+            <label for="{{ i.id }}"> <em>{{ i.amount }} {{ i.unit }}</em> {{ i.ingredient }}</label></li>
             {% endfor %}
         </ul>
         <div class="center"><input class="button" type="submit" value="Hide Ingredients"/>

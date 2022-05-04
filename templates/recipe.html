@@ -18,7 +18,7 @@
         <div class="center">Ingredients:</div>
         <ul>
         {% for ing in ingredients %}
-        <li> <em>{{ ing.amount }}</em> {{ ing.ingredient}}
+        <li> <em>{{ ing.amount }} {{ ing.unit }}</em> {{ ing.ingredient}}
         {% endfor %}
         </ul>
     </div>

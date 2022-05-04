@@ -1,25 +1,25 @@
 body {
   margin: auto;
-  max-width: 65em;
+  max-width: 60%;
   font-family: 'Helvetica', 'Arial', sans-serif;
-  background-color: rgb(132, 109, 97);
-  color: rgb(225, 247, 217);
+  background-color: rgb(234, 244, 244);
+  color: rgb(4, 5, 4);
 }
 .content {
-  padding: 0.5em;
-  margin-bottom: 5em;
-  background: rgb(194, 239, 179);
-  border-radius: 2em;
-  color: rgb(63, 46, 41);
+  padding: 0.5%;
+  margin-bottom: 5%;
+  background: rgb(184, 211, 200);
+  border-radius: 2%;
+  color: rgb(4, 5, 4);
 }
 .header{
-  background: rgb(194, 239, 179);
+  background: rgb(184, 211, 200);
   padding: .5em;
   font-weight: bold;
   font-size: 2em;
   border-radius: .5em;
   margin-top: 2em;
-  color: rgb(63, 46, 41);
+  color: rgb(4, 5, 4);
 }
 .subheader{
   padding-top: 1em;
@@ -56,26 +56,26 @@ h1 {
 
 .gridhome {
   display: grid;
-  grid-template-columns: [first] 32em [line2] 32em [end];
-  grid-template-rows: [row1] 5em [row2] auto [last-line];
+  grid-template-columns: [first] 50% [line2] 50% [end];
+  grid-template-rows: [row1] 5% [row2] auto [last-line];
 }
 
 .gridlogin {
   display: grid;
-  grid-template-columns: [first] 18em [middle] auto [third] 18em [end];
+  grid-template-columns: [first] 35% [middle] 30% [third] 35% [end];
   grid-template-rows: [row1] auto [row2] auto [last-line];
 }
 
 .gridnewcp {
   display: grid;
-  grid-template-columns: [first] 18em [middle] auto [third] 18em [end];
+  grid-template-columns: [first] 25% [middle] auto [third] 25% [end];
   grid-template-rows: [row1] auto [last-line];
 }
 
 .gridcontainer {
   display: grid;
-  grid-template-columns: [first] 26em [line2] 12em [line3] 26em [end];
-  grid-template-rows: [row1-start] 5em [row1-end] auto [third-line] auto [last-line];
+  grid-template-columns: [first] 40% [line2] 20% [line3] 40% [end];
+  grid-template-rows: [row1-start] auto [row1-end] auto [third-line] auto [last-line];
 }
 
 .navgrid {
@@ -88,8 +88,8 @@ h1 {
 
 .cookingplangrid{
   display: grid;
-  grid-template-columns: [first] 26em [line2] 12em [line3] 26em [end];
-  grid-template-rows: [row1-start] 5em [row1-end] auto [third-line] 8em [last-line];
+  grid-template-columns: [first] 40% [line2] 20% [line3] 40% [end];
+  grid-template-rows: [row1-start] auto [row1-end] auto [third-line] auto [last-line];
 }
 
 #link1.griditem {
@@ -97,56 +97,56 @@ h1 {
   grid-row: 1;
   text-align: center;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
 }
 #link2.griditem {
   grid-column: 2;
   grid-row: 1;
   text-align: center;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
 }
 #link3.griditem {
   grid-column: 3;
   grid-row: 1;
   text-align: center;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
 }
 #link4.griditem {
   grid-column: 4;
   grid-row: 1;
   text-align: center;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
 }
 #link5.griditem {
   grid-column: 5;
   grid-row: 1;
   text-align: center;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
 }
 #link1.griditem:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 #link2.griditem:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 #link3.griditem:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 #link4.griditem:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 #link5.griditem:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 #login.griditem {
   grid-column: 2;
   grid-row: 1;
   text-align: left;
-  background: rgb(130, 173, 135);
+  background: rgb(184, 211, 200);
   border-radius: 1em;
   padding: 2em;
   margin: 1em;
@@ -161,21 +161,21 @@ h1 {
   grid-column: 2;
   grid-row: 1;
   text-align: middle;
-  background: rgb(130, 173, 135);
+  background: rgb(184, 211, 200);
   border-radius: 1em;
 }
 #includes.griditem {
   grid-column: 1;
   grid-row: 2;
   text-align: left;
-  background: rgb(130, 173, 135);
+  background: rgb(184, 211, 200);
   border-radius: 1em;
 }
 #shoppinglist.griditem {
   grid-column: 3;
   grid-row: 2;
   text-align: left;
-  background: rgb(130, 173, 135);
+  background: rgb(184, 211, 200);
   border-radius: 1em;
 }
 #options.griditem {
@@ -221,6 +221,12 @@ input#instruction {
   height: 6em;
 }
 
+input#amount{
+  width: 20%;
+}
+input#unit{
+  width: 20%;
+}
 #ingredients.griditem {
   grid-column: 3;
   grid-row: 2;
@@ -248,17 +254,17 @@ fieldset{
 .button {
   padding: 1em;
   border-radius: 1em;
-  background: rgb(66, 106, 90);
-  color: rgb(225, 247, 217);
+  background: rgb(136, 170, 153);
+  color: rgb(4, 5, 4);
   margin: 0.5em;
   border: none;
 }
 .button:hover {
-  background-color: rgb(130, 173, 135);
+  background-color: rgb(164, 195, 178);
 }
 .button a {
   text-decoration: none;
-  color: rgb(130, 173, 135);
+  color: rgb(184, 211, 200);
 }
 
 div.center {
@@ -268,14 +274,14 @@ div.center {
 
 a{
   text-decoration: none;
-  background: rgb(66, 106, 90);
+  background: rgb(136, 170, 153);
   border-radius: 1em;
-  color: rgb(225, 247, 217);
+  color: rgb(4, 5, 4);
   padding: .3em;
   margin: 0.3em;
 }
 a:hover{
-  background: rgb(130, 173, 135);
+  background: rgb(164, 195, 178);
 }
 legend {
   width: 250px;
@@ -306,5 +312,5 @@ nav button {
   border: none;
   background: none;
   padding: .5em;
-  color: rgb(225, 247, 217);
+  color: rgb(4, 5, 4);
 }

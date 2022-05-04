@@ -26,7 +26,8 @@ CREATE TABLE ingredients (
     id SERIAL PRIMARY KEY,
     recipe_id INTEGER REFERENCES recipes,
     ingredient TEXT,
-    amount TEXT
+    amount INTEGER,
+    unit TEXT
 );
 CREATE TABLE likes (
     id SERIAL PRIMARY KEY,

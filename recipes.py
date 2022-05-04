@@ -1,7 +1,7 @@
 from db import db
 
 
-def create_recipe(recipe, instruction, ingredients, amounts, user_id):
+def create_recipe(recipe, instruction, ingredients, amounts, units, user_id):
     sql = "INSERT INTO recipes (name, user_id) VALUES (:recipe, :user_id) RETURNING id"
     result = db.session.execute(sql, {"recipe": recipe, "user_id": user_id})
     recipe_id = result.fetchone()[0]
@@ -12,11 +12,11 @@ def create_recipe(recipe, instruction, ingredients, amounts, user_id):
             db.session.execute(sql, {"recipe_id": recipe_id,
                                      "instruction": instruction[i]})
     for i in range(len(ingredients)):
-        if ingredients[i] != "":
-            sql = """INSERT INTO ingredients (recipe_id, ingredient, amount)
-             VALUES (:recipe_id, :ingredient, :amount)"""
+        if ingredients[i] != "" and amounts[i] != "":
+            sql = """INSERT INTO ingredients (recipe_id, ingredient, amount, unit)
+             VALUES (:recipe_id, :ingredient, :amount, :unit)"""
             db.session.execute(sql, {"recipe_id": recipe_id,
-                                     "ingredient": ingredients[i], "amount": amounts[i]})
+                                     "ingredient": ingredients[i], "amount": amounts[i], "unit": units[i]})
     db.session.commit()
     return recipe_id
 
@@ -59,13 +59,13 @@ def get_recipe_info(id):
     sql = "SELECT id, instruction FROM instructions WHERE recipe_id=:id"
     result = db.session.execute(sql, {"id": id})
     instructions = result.fetchall()
-    sql = "SELECT id, ingredient, amount FROM ingredients WHERE recipe_id=:id"
+    sql = "SELECT id, ingredient, amount, unit FROM ingredients WHERE recipe_id=:id"
     result = db.session.execute(sql, {"id": id})
     ingredients = result.fetchall()
     return (recipe_info, instructions, ingredients)
 
 
-def update_recipe(recipe_id, new_instructions, new_ingredients, new_amounts):
+def update_recipe(recipe_id, new_instructions, new_ingredients, new_amounts, new_units):
     old_recipe = get_recipe_info(recipe_id)
     old_instruction = old_recipe[1]
     old_ingredients = old_recipe[2]
@@ -85,21 +85,38 @@ def update_recipe(recipe_id, new_instructions, new_ingredients, new_amounts):
             db.session.execute(sql, {"id": old_instruction[i][0]})
     for i in range(len(new_ingredients)):
         if i > len(old_ingredients)-1:
-            if new_ingredients[i] != "":
-                sql = """INSERT INTO ingredients (recipe_id, ingredient, amount) 
-                VALUES (:recipe_id, :ingredient, :amount)"""
+            if new_ingredients[i] != "" and new_amounts[i] != "":
+                sql = """INSERT INTO ingredients (recipe_id, ingredient, amount, unit) 
+                VALUES (:recipe_id, :ingredient, :amount, :unit)"""
                 db.session.execute(sql, {"recipe_id": recipe_id,
-                                         "ingredient": new_ingredients[i], "amount": new_amounts[i]})
-        elif new_ingredients[i] != "":
+                                         "ingredient": new_ingredients[i], "amount": int(new_amounts[i]), "unit": new_units[i]})
+        elif new_ingredients[i] != "" and new_amounts[i] != "":
             sql = """UPDATE ingredients SET ingredient = :new_ingredient, 
-            amount = :new_amount WHERE id=:id;"""
+            amount = :new_amount, unit = :new_unit WHERE id=:id;"""
             db.session.execute(sql, {"new_ingredient": new_ingredients[i],
-                                     "new_amount": new_amounts[i], "id": old_ingredients[i][0]})
+                                     "new_amount": new_amounts[i], "new_unit": new_units[i], "id": old_ingredients[i][0]})
         elif new_ingredients[i] == "":
             sql = "DELETE FROM ingredients WHERE id=:id;"
             db.session.execute(sql, {"id": old_ingredients[i][0]})
     db.session.commit()
 
+def validate_recipe_edit(instructions ,ingredients, amounts):
+    errors = []
+    not_valid = True
+    for text in instructions:
+        if text != "":
+            not_valid = False
+            break
+    if not_valid:
+        errors.append('Recipe needs to have atleast one instruction step!')
+    not_valid = True
+    for i in range(len(ingredients)):
+        if ingredients[i] != "" and amounts[i] != "":
+            not_valid = False
+            break
+    if not_valid:
+        errors.append('Recipe needs to have atleast one ingredient with an amount!')
+    return errors
 
 def get_liked(user_id):
     sql = "SELECT recipe_id FROM likes WHERE user_id=:user_id"
@@ -153,17 +170,15 @@ def get_cooking_plans(user_id):
 
 
 def get_cp_ingredients(cp_id):
-    sql = """SELECT i.ingredient, i.amount, i.id FROM cp_recipes c, ingredients i 
+    sql = """SELECT i.ingredient, i.amount, i.unit, i.id FROM cp_recipes c, ingredients i 
     WHERE c.cp_id=:cp_id AND i.recipe_id=c.recipe_id AND i.id not in (SELECT ingredient_id FROM cp_hidden WHERE cp_id=:cp_id) ORDER BY i.ingredient"""
     result = db.session.execute(sql, {"cp_id": cp_id})
     return result.fetchall()
-
 
 def get_cp_info(id):
     sql = "SELECT user_id, name FROM cooking_plans WHERE id=:id;"
     result = db.session.execute(sql, {"id": id})
     return result.fetchall()
-
 
 def get_cp_recipes(id):
     sql = """SELECT r.name, r.id FROM recipes r LEFT JOIN cp_recipes c 

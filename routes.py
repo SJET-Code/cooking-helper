@@ -7,13 +7,15 @@ import users
 @app.route("/")
 def index():
     return render_template("index.html", recipes=recipes.get_recipes(),
-    liked_recipes=recipes.get_recipes("mostlikes"), user=users.is_user())
+    liked_recipes=recipes.get_recipes("mostlikes"), user=users.is_user(),
+    username=users.get_username(users.user_id()))
 
 
 @app.route("/new")
 def new():
     if users.is_user():
-        return render_template("new.html", user=users.is_user())
+        return render_template("new.html", user=users.is_user(),
+        username=users.get_username(users.user_id()))
     return redirect("/login")
 
 
@@ -25,8 +27,9 @@ def create():
     instruction = request.form.getlist("instructions")
     ingredients = request.form.getlist("ingredient")
     amounts = request.form.getlist("amount")
+    units = request.form.getlist("unit")
     id = recipes.create_recipe(
-        recipe, instruction, ingredients, amounts, users.user_id())
+        recipe, instruction, ingredients, amounts, units, users.user_id())
     return redirect("/recipe/"+str(id))
 
 
@@ -34,11 +37,12 @@ def create():
 def recipe(id):
     recipe_info = recipes.get_recipe_info(id)
     if len(recipe_info) == 0:
-        return render_template("error.html", message="No such recipe!", user=users.is_user())
+        return render_template("error.html", message=["No such recipe!"], user=users.is_user())
     like = recipes.check_like(users.user_id(), id)
     return render_template("recipe.html", id=id, recipe=recipe_info[0][0], instructions=recipe_info[1], 
     ingredients=recipe_info[2], maker=recipe_info[0][1], user=users.is_user(), 
-    is_owner=users.user_id() == recipe_info[0][2], like=like, likes=recipes.get_recipe_likes(id))
+    is_owner=users.user_id() == recipe_info[0][2], like=like, likes=recipes.get_recipe_likes(id),
+    username=users.get_username(users.user_id()))
 
 
 @app.route("/recipe/<int:id>/edit", methods=["GET", "POST"])
@@ -46,7 +50,8 @@ def edit_recipe(id):
     if request.method == "GET":
         recipe_info = recipes.get_recipe_info(id)
         if users.user_id() != recipe_info[0][2]:
-            return render_template("error.html", message="Only the creator of the recipe can edit it!", user=users.is_user())
+            return render_template("error.html", message=["Only the creator of the recipe can edit it!"],
+            user=users.is_user(), username=users.get_username(users.user_id()))
         return render_template("edit_recipe.html", id=id, recipe=recipe_info[0][0], instructions=recipe_info[1], 
         ingredients=recipe_info[2], maker=recipe_info[0][1], user=users.is_user())
     if request.method == "POST":
@@ -55,8 +60,14 @@ def edit_recipe(id):
         instruction = request.form.getlist("instructions")
         ingredients = request.form.getlist("ingredient")
         amounts = request.form.getlist("amount")
-        recipes.update_recipe(id, instruction, ingredients, amounts)
-        return redirect("/recipe/"+str(id))
+        units = request.form.getlist("unit")
+        result = recipes.validate_recipe_edit(instruction, ingredients, amounts)
+        if result == []:
+            recipes.update_recipe(id, instruction, ingredients, amounts, units)
+            return redirect("/recipe/"+str(id))
+        recipe_info = recipes.get_recipe_info(id)
+        return render_template("edit_recipe.html", message=result, id=id, recipe=recipe_info[0][0], instructions=recipe_info[1], 
+        ingredients=recipe_info[2], maker=recipe_info[0][1], user=users.is_user(), username=users.get_username(users.user_id()))
 
 
 @app.route("/recipe/<int:id>/like")
@@ -89,7 +100,8 @@ def delete_recipe(id):
     recipe_info = recipes.get_recipe_info(id)
     if users.user_id() != recipe_info[0][2]:
         return render_template("error.html", 
-        message="Only the creator of the recipe can delete it!", user=users.is_user())
+        message=["Only the creator of the recipe can delete it!"], user=users.is_user(),
+        username=users.get_username(users.user_id()))
     recipes.delete_recipe(id)
     return redirect("/")
 
@@ -101,10 +113,12 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if users.login(username, password):
+        result = users.login(username, password)
+        if result[0][0] == 'S':
             return redirect("/")
         else:
-            return render_template("error.html", message="Wrong username or password", user=users.is_user())
+            return render_template("login.html", message=result, user=users.is_user(),
+            username=users.get_username(users.user_id()))
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -116,11 +130,14 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
-            return render_template("error.html", message="The password differ", user=users.is_user())
-        if users.register(username, password1):
+            return render_template("register.html", message=["The passwords differ"], user=users.is_user(),
+            username=users.get_username(users.user_id()))
+        result = users.register(username, password1)
+        if result == []:
             return redirect("/")
         else:
-            return render_template("error.html", message="Registeration failed", user=users.is_user())
+            return render_template("register.html", message=result, user=users.is_user(),
+            username=users.get_username(users.user_id()))
 
 
 @app.route("/logout")
@@ -138,7 +155,7 @@ def new_cooking_plan():
     recipe_list = recipes.get_recipes(recipe_ids)
     if request.method == "GET":
         return render_template("new_cooking_plan.html", recipes=recipe_list, 
-        user=users.is_user(), empty=len(recipe_list) == 0)
+        user=users.is_user(), empty=len(recipe_list) == 0, username=users.get_username(users.user_id()))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
@@ -146,7 +163,8 @@ def new_cooking_plan():
         recipe_ids = request.form.getlist("id")
         if len(recipe_ids) == 0:
             return render_template("new_cooking_plan.html", recipes=recipe_list, user=users.is_user(), 
-            empty=len(recipe_list) == 0, message="Can't create an empty Cooking Plan!")
+            empty=len(recipe_list) == 0, message=["Can't create an empty Cooking Plan!"],
+            username=users.get_username(users.user_id()))
         id = recipes.create_cp(users.user_id(), name, recipe_ids)
         return redirect("/cooking_plan/"+str(id))
 
@@ -157,26 +175,26 @@ def my_cooking_plans():
         return redirect("/login")
     cooking_plans = recipes.get_cooking_plans(users.user_id())
     return render_template("my_cooking_plans.html", cooking_plans=cooking_plans, 
-    user=users.is_user(), empty=len(cooking_plans) == 0)
+    user=users.is_user(), empty=len(cooking_plans) == 0, username=users.get_username(users.user_id()))
 
 
 @app.route("/cooking_plan/<int:id>")
 def cooking_plan(id):
     cp_info = recipes.get_cp_info(id)
     if cp_info[0][0] != users.user_id():
-        return render_template("error.html", message="Only the creator of the Cooking Plan can view it!", 
-        user=users.is_user())
+        return render_template("error.html", message=["Only the creator of the Cooking Plan can view it!"], 
+        user=users.is_user(), username=users.get_username(users.user_id()))
     cp_ingredients = recipes.get_cp_ingredients(id)
     cp_recipes = recipes.get_cp_recipes(id)
     return render_template("cooking_plan.html", id=id, cp_recipes=cp_recipes, 
-    cp_ingredients=cp_ingredients, cooking_plan=cp_info[0][1], user=users.is_user())
+    cp_ingredients=cp_ingredients, cooking_plan=cp_info[0][1], user=users.is_user(), username=users.get_username(users.user_id()))
 
 @app.route("/cooking_plan/<int:id>/delete")
 def delete_cooking_plan(id):
     cp_info = recipes.get_cp_info(id)
     if cp_info[0][0] != users.user_id():
-        return render_template("error.html", message="Only the creator of the Cooking Plan can delete it!", 
-        user=users.is_user())
+        return render_template("error.html", message=["Only the creator of the Cooking Plan can delete it!"], 
+        user=users.is_user(), username=users.get_username(users.user_id()))
     recipes.delete_cp(id)
     return redirect("/")
 
@@ -184,13 +202,13 @@ def delete_cooking_plan(id):
 def edit_cooking_plan(id):
     cp_info = recipes.get_cp_info(id)
     if cp_info[0][0] != users.user_id():
-        return render_template("error.html", message="Only the creator of the Cooking Plan can edit it!", 
-        user=users.is_user())
+        return render_template("error.html", message=["Only the creator of the Cooking Plan can edit it!"], 
+        user=users.is_user(), username=users.get_username(users.user_id()))
     if request.method == "GET":
         recipe_ids = recipes.get_liked(users.user_id())
         recipe_list = recipes.get_recipes(recipe_ids)
         return render_template("edit_cooking_plan.html", id=id, cp_name=cp_info[0][1], recipes=recipe_list,
-        contains=recipes.get_cp_recipes(id), user=users.is_user())
+        contains=recipes.get_cp_recipes(id), user=users.is_user(), username=users.get_username(users.user_id()))
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
@@ -200,7 +218,8 @@ def edit_cooking_plan(id):
             recipe_ids = recipes.get_liked(users.user_id())
             recipe_list = recipes.get_recipes(recipe_ids)
             return render_template("edit_cooking_plan.html", id=id, cp_name=cp_info[0][1], recipes=recipe_list,
-            contains=recipes.get_cp_recipes(id), user=users.is_user(), message="Can't create an empty Cooking Plan!")
+            contains=recipes.get_cp_recipes(id), user=users.is_user(), message=["Can't create an empty Cooking Plan!"],
+            username=users.get_username(users.user_id()))
         recipes.edit_cp(id, name, recipe_ids)
         return redirect("/cooking_plan/"+str(id))
 

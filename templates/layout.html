@@ -34,7 +34,7 @@
         {% endif %}
       </div>
      </nav>
-    <main><div class="center"> {{ message }} </div>
+    <main><div class="center"> {% for i in message %} {{ i }}<br> {% endfor %}</div>
       <div class="content">
         {% block content %}
         
@@ -45,7 +45,10 @@
         </aside>
     </main>
     <footer>
-      <p>Made by Santeri Tolonen</p>
+      {% if user %}
+        <p>Logged in as {{ username }}</p>
+        {% endif %}
+      <p><a href="https://github.com/SJET-Code/cooking-helper">Check out the source code for this website!</a></p>
     </footer>
   </body>
 </html>
