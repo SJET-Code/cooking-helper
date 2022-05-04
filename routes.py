@@ -138,8 +138,7 @@ def register():
         if result == []:
             return redirect("/")
         else:
-            return render_template("register.html", message=result, user=users.is_user(),
-            username=users.get_username(users.user_id()))
+            return render_template("register.html", message=result, user=users.is_user())
 
 
 @app.route("/logout")
