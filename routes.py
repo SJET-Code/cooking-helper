@@ -111,9 +111,9 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
     if request.method == "POST":
-        username = request.form["username"]
+        user_name = request.form["username"]
         password = request.form["password"]
-        result = users.login(username, password)
+        result = users.login(user_name, password)
         if result == []:
             return redirect("/")
         else:
@@ -124,15 +124,17 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
+        if users.is_user():
+            return redirect("/")
         return render_template("register.html")
     if request.method == "POST":
-        username = request.form["username"]
+        user_name = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("register.html", message=["The passwords differ"], user=users.is_user(),
             username=users.get_username(users.user_id()))
-        result = users.register(username, password1)
+        result = users.register(user_name, password1)
         if result == []:
             return redirect("/")
         else:

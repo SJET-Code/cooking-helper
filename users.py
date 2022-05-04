@@ -45,8 +45,9 @@ def is_user():
     return user_id() != 0
 
 def get_username(id):
-    if id == 0:
-        return ""
     sql = "SELECT username FROM users WHERE id=:id"
     result = db.session.execute(sql, {"id": id})
-    return result.fetchone()[0]
+    username = result.fetchone()
+    if not username:
+        return ""
+    return username[0]
