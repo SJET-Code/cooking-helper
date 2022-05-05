@@ -1,8 +1,9 @@
+"""Functions to interact with user data"""
 import secrets
-from db import db
 from flask import session
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from werkzeug.security import check_password_hash, generate_password_hash
+from db import db
 
 
 def login(username, password):
@@ -11,13 +12,11 @@ def login(username, password):
     user = result.fetchone()
     if not user:
         return ['Username does not exist!']
-    else:
-        if check_password_hash(user.password_hash, password):
-            session["user_id"] = user.id
-            session["csrf_token"] = secrets.token_hex(16)
-            return []
-        else:
-            return ['Wrong password!']
+    if check_password_hash(user.password_hash, password):
+        session["user_id"] = user.id
+        session["csrf_token"] = secrets.token_hex(16)
+        return []
+    return ['Wrong password!']
 
 
 def logout():
@@ -33,7 +32,7 @@ def register(username, password):
         db.session.commit()
     except IntegrityError:
         return ['Username taken! Please pick another username.']
-    except:
+    except (AttributeError, OperationalError):
         return ['An error occured, please try again later!']
     return login(username, password)
 
@@ -41,12 +40,14 @@ def register(username, password):
 def user_id():
     return session.get("user_id", 0)
 
+
 def is_user():
     return user_id() != 0
 
-def get_username(id):
+
+def get_username(userid):
     sql = "SELECT username FROM users WHERE id=:id"
-    result = db.session.execute(sql, {"id": id})
+    result = db.session.execute(sql, {"id": userid})
     username = result.fetchone()
     if not username:
         return ""
