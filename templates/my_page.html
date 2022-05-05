@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}My Page{% endblock %}
+{% block content %}
+<div class="mypagegrid">
+    <div class="griditem" id="mycpsheader">
+    <h2>Your Cooking Plans</h2>
+    </div>
+
+    <div class="griditem" id="myrecipesheader">
+        <h2>Your Recipes</h2>
+        </div>
+    <div class="griditem" id="mycookingplans">
+        {% if no_cps %}
+        <div class="center">Create a Cooking Plan to see it here!</div>
+        {% else %}
+        {% for key in cooking_plans.keys() %}
+        <h3><input class="button" type="button" onclick="location.href='/cooking_plan/{{ key[0] }}';" value="{{ key[1] }}"/></h3>
+        <b>Includes Recipes:</b><ul>
+        {% for recipe_name in cooking_plans[key] %}
+        <li>{{ recipe_name }}</li>
+        {% endfor %}
+        </ul>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="griditem" id="myrecipes">
+        {% if no_recipes %}
+        <div class="center">Create a Recipe to see it here!</div>
+        {% else %}
+        {% for recipe in recipes %}
+        <h3><input class="button" type="button" onclick="location.href='/recipe/{{ recipe.id }}';" value="{{ recipe.name }}"/></h3>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="griditem" id="mycpsnew">
+        <input class="button" type="button" onclick="location.href='/new_cooking_plan';" value="Create a New Cooking Plan"/>
+    </div>
+    <div class="griditem" id="myrecipesnew">
+        <input class="button" type="button" onclick="location.href='/new';" value="Create a New Recipe"/>
+    </div>
+</div>
+
+
+
+{% endblock %}

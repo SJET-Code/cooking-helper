@@ -3,10 +3,10 @@
 {% block content %}
 <div class="cookingplangrid">
     <div class="griditem" id="recipename">
-        <h3>{{ cooking_plan }}</h3>
+        <h2>{{ cooking_plan }}</h2>
     </div>
     <div class="griditem" id="includes">
-        <div class="center">Includes Recipes:</div>
+        <div class="center"><h4>Includes Recipes:</h4></div>
         <ul>
         {% for recipe in cp_recipes %}
         <li><a href="/recipe/{{ recipe.id }}"> {{ recipe.name }}</a>
@@ -14,7 +14,7 @@
         </ul>
     </div>
     <div class="griditem" id="shoppinglist">
-        <div class="center">Shopping list:</div>
+        <div class="center"><h4>Shopping list:</h4></div>
         <form name="hide" action="/cooking_plan/{{ id }}/hide" method="POST">
         <ul>
             {% for i in cp_ingredients %}

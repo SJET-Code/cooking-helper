@@ -9,13 +9,13 @@ def create_recipe(recipe, instruction, ingredients, amounts, units, user_id):
     for step in instruction:
         if step != "":
             sql = """INSERT INTO instructions (recipe_id, instruction)
-            VALUES (:recipe_id, :instruction)"""
+                     VALUES (:recipe_id, :instruction)"""
             db.session.execute(sql, {"recipe_id": recipe_id,
                                      "instruction": step})
     for i, ingredient in enumerate(ingredients):
         if ingredient != "" and amounts[i] != "":
             sql = """INSERT INTO ingredients (recipe_id, ingredient, amount, unit)
-             VALUES (:recipe_id, :ingredient, :amount, :unit)"""
+                     VALUES (:recipe_id, :ingredient, :amount, :unit)"""
             db.session.execute(sql, {"recipe_id": recipe_id,
                                      "ingredient": ingredient, "amount": amounts[i],
                                      "unit": units[i]})
@@ -32,30 +32,40 @@ def delete_recipe(recipe_id):
 def get_recipes(argument=None):
     if not argument:
         sql = """SELECT r.id, r.name, u.username, (SELECT COUNT(*) FROM likes
-        WHERE recipe_id=r.id) likecount FROM recipes r LEFT JOIN users u ON
-        r.user_id = u.id ORDER BY r.id DESC LIMIT 20;"""
+                 WHERE recipe_id=r.id) likecount FROM recipes r LEFT JOIN users u 
+                 ON r.user_id = u.id ORDER BY r.id DESC LIMIT 20;"""
         result = db.session.execute(sql)
         return result.fetchall()
     if argument == "mostlikes":
         sql = """SELECT r.id, r.name, u.username, (SELECT COUNT(*) FROM likes
-        WHERE recipe_id=r.id) likecount FROM recipes r LEFT JOIN users u ON
-        r.user_id = u.id ORDER BY likecount DESC LIMIT 20;"""
+                 WHERE recipe_id=r.id) likecount FROM recipes r LEFT JOIN users u 
+                 ON r.user_id = u.id ORDER BY likecount DESC LIMIT 20;"""
         result = db.session.execute(sql)
         return result.fetchall()
+    if isinstance(argument, int):
+        sql = """SELECT id, name FROM recipes
+                 WHERE user_id = :user_id
+                 ORDER BY name;"""
+        result = db.session.execute(sql, {"user_id" : argument})
+        return result.fetchall()
+
     return []
 
 
 def get_users_liked_recipes(user_id):
     sql = """SELECT r.id, r.name
-    FROM recipes r LEFT JOIN likes l ON r.id = l.recipe_id
-    WHERE l.user_id = :user_id ORDER BY r.name DESC"""
+             FROM recipes r LEFT JOIN likes l
+             ON r.id = l.recipe_id
+             WHERE l.user_id = :user_id
+             ORDER BY r.name DESC"""
     result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()
 
 
 def get_recipe_info(recipe_id):
-    sql = """SELECT r.name, u.username, u.id FROM recipes r LEFT JOIN users u ON r.user_id = u.id
-    WHERE r.id=:id;"""
+    sql = """SELECT r.name, u.username, u.id
+             FROM recipes r LEFT JOIN users u ON r.user_id = u.id
+             WHERE r.id=:id;"""
     result = db.session.execute(sql, {"id": recipe_id})
     recipe_info = result.fetchone()
     sql = "SELECT id, instruction FROM instructions WHERE recipe_id=:id"
@@ -75,7 +85,7 @@ def update_recipe(recipe_id, new_instructions, new_ingredients, new_amounts, new
         if i > len(old_instruction)-1:
             if instruction != "":
                 sql = """INSERT INTO instructions (recipe_id, instruction)
-                VALUES (:recipe_id, :instruction)"""
+                         VALUES (:recipe_id, :instruction)"""
                 db.session.execute(sql, {"recipe_id": recipe_id,
                                          "instruction": instruction})
         elif instruction != "":
@@ -89,13 +99,13 @@ def update_recipe(recipe_id, new_instructions, new_ingredients, new_amounts, new
         if i > len(old_ingredients)-1:
             if ingredient != "" and new_amounts[i] != "":
                 sql = """INSERT INTO ingredients (recipe_id, ingredient, amount, unit)
-                VALUES (:recipe_id, :ingredient, :amount, :unit)"""
+                         VALUES (:recipe_id, :ingredient, :amount, :unit)"""
                 db.session.execute(sql, {"recipe_id": recipe_id,
                                          "ingredient": ingredient, "amount": int(new_amounts[i]),
                                          "unit": new_units[i]})
         elif ingredient != "" and new_amounts[i] != "":
             sql = """UPDATE ingredients SET ingredient = :new_ingredient,
-            amount = :new_amount, unit = :new_unit WHERE id=:id;"""
+                     amount = :new_amount, unit = :new_unit WHERE id=:id;"""
             db.session.execute(sql, {"new_ingredient": ingredient,
                                      "new_amount": new_amounts[i], "new_unit": new_units[i],
                                      "id": old_ingredients[i][0]})
@@ -162,12 +172,17 @@ def delete_cp(cp_id):
 
 
 def get_cooking_plans(user_id):
-    sql = """SELECT a.id, a.name, c.name FROM cooking_plans a LEFT JOIN cp_recipes b
-    ON a.id = b.cp_id LEFT JOIN recipes c ON b.recipe_id = c.id WHERE a.user_id=:user_id;"""
+    sql = """SELECT a.id, a.name, c.name
+             FROM cooking_plans a LEFT JOIN cp_recipes b
+             ON a.id = b.cp_id LEFT JOIN recipes c
+             ON b.recipe_id = c.id
+             WHERE a.user_id=:user_id;"""
     result = db.session.execute(sql, {"user_id": user_id})
     cooking_plans = result.fetchall()
     cp_dict = {}
-    for cooking_plan in enumerate(cooking_plans):
+    if not cooking_plans:
+        return cp_dict
+    for cooking_plan in cooking_plans:
         if (cooking_plan[0], cooking_plan[1]) not in cp_dict:
             cp_dict[(cooking_plan[0], cooking_plan[1])] = [
                 cooking_plan[2]]
@@ -196,7 +211,7 @@ def get_cp_info(cp_id):
 
 def get_cp_recipes(cp_id):
     sql = """SELECT r.name, r.id FROM recipes r LEFT JOIN cp_recipes c
-    ON r.id=c.recipe_id WHERE c.cp_id=:id;"""
+             ON r.id=c.recipe_id WHERE c.cp_id=:id;"""
     result = db.session.execute(sql, {"id": cp_id})
     return result.fetchall()
 
@@ -227,7 +242,7 @@ def edit_cp(cp_id, cp_name, recipe_ids):
 
 def hide_cp_ingredients(cp_id, ingredient_ids):
     for ingredient_id in ingredient_ids:
-        sql = """INSERT INTO cp_hidden (cp_id, ingredient_id) VALUES (:cp_id, :ingredient_id);"""
+        sql = "INSERT INTO cp_hidden (cp_id, ingredient_id) VALUES (:cp_id, :ingredient_id);"
         db.session.execute(
             sql, {"cp_id": cp_id, "ingredient_id": ingredient_id})
     db.session.commit()

@@ -6,8 +6,8 @@
 <form class="createRecipe" name="cooking plan" action="/cooking_plan/{{ id }}/edit" method="POST">
     <fieldset>
         <div class="buttonHolder">
-        <legend>Edit Cooking Plan {{ cp_name }}</legend><br>
-        <label class="namelabel" for="name">Cooking Plan name:</label><br>
+        <legend><h2>Edit Cooking Plan {{ cp_name }}</h2></legend><br>
+        <label class="namelabel" for="name"><h4>Cooking Plan name:</h4></label><br>
         <input type="text" id="name" name="name" required minlength="3" maxlength="35" value="{{ cp_name }}"><br><br>
 {% for recipe in recipes %}
 <input class="check" type="checkbox" id="{{ recipe.id }}" name="id" value="{{ recipe.id }}" {% if (recipe.name, recipe.id) in contains %} checked {% endif %}> 

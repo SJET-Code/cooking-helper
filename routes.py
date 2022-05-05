@@ -185,13 +185,15 @@ def new_cooking_plan():
         return redirect("/cooking_plan/"+str(cooking_plan_id))
 
 
-@app.route("/my_cooking_plans")
+@app.route("/my_page")
 def my_cooking_plans():
     if users.user_id() == 0:
         return redirect("/login")
     cooking_plans = recipes.get_cooking_plans(users.user_id())
-    return render_template("my_cooking_plans.html", cooking_plans=cooking_plans,
-                           user=users.is_user(), empty=len(cooking_plans) == 0,
+    user_recipes = recipes.get_recipes(users.user_id())
+    return render_template("my_page.html", cooking_plans=cooking_plans,
+                           recipes=user_recipes, no_recipes= not user_recipes,
+                           user=users.is_user(), no_cps= not cooking_plans,
                            username=users.get_username(users.user_id()))
 
 

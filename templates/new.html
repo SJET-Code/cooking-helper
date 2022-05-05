@@ -4,18 +4,18 @@
 
 <form class="gridcontainer" id="new" name="Recipe" action="/create" method="POST">
     <div class="griditem" id="recipename">
-    <label for="Recipe name">Recipe name:</label>
+    <label for="Recipe name"><h3>Recipe name:</h3></label>
     <input type="text" id="name" name="Recipe name" required minlength="3" maxlength="25">
     </div>
     <div class="griditem" id="instructions">
-    <Label for="instructions">Step-by-Step Instructions:</Label>
+    <Label for="instructions"><h4>Step-by-Step Instructions:</h4></Label>
         <div id="instructionsteps">
         <div><textarea name="instructions" id="instruction" form="new" placeholder="add a step" required maxlength="100" rows="3" cols="34"></textarea></div>
         </div>
         <input class="button" type="button" id="newIngredient" onclick="add_step();" value="Add a new step"><br>
     </div>
     <div class="griditem" id="ingredients">
-    <label for="ingredient">Ingredients:</label>
+    <label for="ingredient"><h4>Ingredients:</h4></label>
         <div id="container">
             <span><input type="text" name="ingredient" id="ingredient" placeholder="ingredient name" required maxlength="35">
             <input type="number" name="amount" id="amount" placeholder="amount" required min="1" max="9999999">

@@ -4,10 +4,10 @@
 
 <div class="gridcontainer">
     <div class="griditem" id="recipename">
-        <h3>{{ recipe }} by {{ maker }}</h3>
+        <h2>{{ recipe }} by {{ maker }}</h2>
     </div>
     <div class="griditem" id="includes">
-        <div class="center">Step-by-step instructions:</div>
+        <div class="center"><h4>Step-by-step instructions:</h4></div>
         <ol>
             {% for step in instructions %}
             <li> {{ step.instruction }}
@@ -15,7 +15,7 @@
         </ol>
     </div>
     <div class="griditem" id="shoppinglist">
-        <div class="center">Ingredients:</div>
+        <div class="center"><h4>Ingredients:</h4></div>
         <ul>
         {% for ing in ingredients %}
         <li> <em>{{ ing.amount }} {{ ing.unit }}</em> {{ ing.ingredient}}

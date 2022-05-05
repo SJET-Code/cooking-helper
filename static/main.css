@@ -86,6 +86,12 @@ h1 {
   margin-top: .5em;
 }
 
+.mypagegrid {
+  display: grid;
+  grid-template-columns: [first] 50% [line2] 50% [end];
+  grid-template-rows: [row1-start] auto [row1-end] auto [third-line] auto [last-line];
+}
+
 .cookingplangrid{
   display: grid;
   grid-template-columns: [first] 40% [line2] 20% [line3] 40% [end];
@@ -188,7 +194,40 @@ h1 {
   grid-row: 1;
   text-align: center;
 }
-
+#mycookingplans.griditem {
+  grid-column: 1;
+  grid-row: 2;
+  text-align: center;
+  background: rgb(184, 211, 200);
+  border-radius: 1%;
+}
+#myrecipes.griditem {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: center;
+  background: rgb(184, 211, 200);
+  border-radius: 1%;
+}
+#mycpsheader.griditem {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: center;
+}
+#myrecipesheader.griditem {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+}
+#mycpsnew.griditem {
+  grid-column: 1;
+  grid-row: 3;
+  text-align: center;
+}
+#myrecipesnew.griditem {
+  grid-column: 2;
+  grid-row: 3;
+  text-align: center;
+}
 #instructions.griditem {
   grid-column: 1;
   grid-row: 2;
@@ -269,7 +308,7 @@ fieldset{
 
 div.center {
   text-align: center;
-  padding: .5em;
+  padding: .5%;
 }
 
 a{
@@ -277,8 +316,8 @@ a{
   background: rgb(136, 170, 153);
   border-radius: 1em;
   color: rgb(4, 5, 4);
-  padding: .3em;
-  margin: 0.3em;
+  padding: .3%;
+  margin: 0.3%;
 }
 a:hover{
   background: rgb(164, 195, 178);
